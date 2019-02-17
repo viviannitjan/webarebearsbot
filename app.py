@@ -65,7 +65,7 @@ def callback():
     sys.stdout.flush()
     # handle webhook body
     try:
-        handler.handle(body, signature)
+        handler.handle(answer, signature)
     except InvalidSignatureError:
         abort(400)
 
