@@ -16,6 +16,8 @@ from __future__ import unicode_literals
 
 import os
 import sys
+import urllib.parse
+import requests
 from argparse import ArgumentParser
 
 from flask import Flask, request, abort
@@ -44,7 +46,6 @@ if channel_access_token is None:
 line_bot_api = LineBotApi(channel_access_token)
 parser = WebhookParser(channel_secret)
 
-
 @app.route("/callback", methods=['POST'])
 def callback():
     signature = request.headers['X-Line-Signature']
@@ -59,7 +60,7 @@ def callback():
     except InvalidSignatureError:
         abort(400)
 
-    # if event is MessageEvent and message is TextMessage, then echo text
+    if event is MessageEvent and message is TextMessage, then echo text
     for event in events:
         if not isinstance(event, MessageEvent):
             continue
@@ -73,6 +74,11 @@ def callback():
 
     return 'OK'
 
+def calculate(expr):
+    expr=urllib.parse.quote(expr)
+    link = "http://api.mathjs.org/v4/?expr=" + expr
+    response = requests.geturl(link)
+    return response
 
 if __name__ == "__main__":
     arg_parser = ArgumentParser(
