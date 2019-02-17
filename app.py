@@ -61,11 +61,9 @@ def callback():
     sys.stdout.flush()
     app.logger.info("Request body: " + body)
     answer = calculate(body)
-    print(answer.text)
-    sys.stdout.flush()
     # handle webhook body
     try:
-        handler.handle(answer, signature)
+        handler.handle(answer.text, signature)
     except InvalidSignatureError:
         abort(400)
 
@@ -73,10 +71,10 @@ def callback():
 
 
 @handler.add(MessageEvent, message=TextMessage)
-def message_text(event):
+def message_text(event,answer):
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=event.message.text)
+        TextSendMessage(text=answer)
     )
 
 
