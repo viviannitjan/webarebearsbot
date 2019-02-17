@@ -42,6 +42,11 @@ if channel_access_token is None:
 line_bot_api = LineBotApi(channel_access_token)
 handler = WebhookHandler(channel_secret)
 
+def calculate(expr):
+    expr=urllib.parse.quote(expr)
+    link = "http://api.mathjs.org/v4/?expr=" + expr
+    response = requests.geturl(link)
+    return response
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -51,7 +56,8 @@ def callback():
     # get request body as text
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
-
+    answer = calculate(body)
+    print(answer.text)
     # handle webhook body
     try:
         handler.handle(body, signature)
