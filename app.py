@@ -14,6 +14,7 @@
 
 import os
 import sys
+import urllib.parse
 from argparse import ArgumentParser
 
 from flask import Flask, request, abort
@@ -55,6 +56,7 @@ def callback():
 
     # get request body as text
     body = request.get_data(as_text=True)
+    print("Body =" + body)
     app.logger.info("Request body: " + body)
     answer = calculate(body)
     print(answer.text)
