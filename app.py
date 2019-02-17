@@ -47,7 +47,7 @@ handler = WebhookHandler(channel_secret)
 def calculate(expr):
     expr=urllib.parse.quote(expr)
     link = "http://api.mathjs.org/v4/?expr=" + expr
-    response = requests.geturl(link)
+    response = requests.get(link)
     return response
 
 @app.route("/callback", methods=['POST'])
