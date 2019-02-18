@@ -16,7 +16,7 @@ import os
 import sys
 import urllib.parse
 import requests
-import pyscopg2
+import psycopg2
 from argparse import ArgumentParser
 
 from flask import Flask, request, abort
