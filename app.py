@@ -80,7 +80,7 @@ def message_text(event):
         cur.execute("select * from calc_history where uid = '%s';" % (uid))
         results = cur.fetchall()
         content =""
-        if (results>0):
+        if (len(results)>0):
             for i in range (0,len(results)):
                 content += results[i][0] + results[i][1] + "\n"
         else : 
