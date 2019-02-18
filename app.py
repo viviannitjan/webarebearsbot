@@ -37,8 +37,7 @@ channel_secret = os.getenv('LINE_CHANNEL_SECRET', None)
 channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN', None)
 db_url = os.getenv('DATABASE_URL', None)
 
-
-if channel_secret is None: name in postgresql
+if channel_secret is None: 
     print('Specify LINE_CH name in postgresql as environment variable.')
     sys.exit(1)
 if channel_access_token is None:
