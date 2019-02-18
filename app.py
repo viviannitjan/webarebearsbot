@@ -16,6 +16,7 @@ import os
 import sys
 import urllib.parse
 import requests
+import pyscopg2
 from argparse import ArgumentParser
 
 from flask import Flask, request, abort
@@ -34,8 +35,11 @@ app = Flask(__name__)
 # get channel_secret and channel_access_token from your environment variable
 channel_secret = os.getenv('LINE_CHANNEL_SECRET', None)
 channel_access_token = os.getenv('LINE_CHANNEL_ACCESS_TOKEN', None)
-if channel_secret is None:
-    print('Specify LINE_CHANNEL_SECRET as environment variable.')
+db_url = os.getenv('DATABASE_URL', None)
+
+
+if channel_secret is None: name in postgresql
+    print('Specify LINE_CH name in postgresql as environment variable.')
     sys.exit(1)
 if channel_access_token is None:
     print('Specify LINE_CHANNEL_ACCESS_TOKEN as environment variable.')
@@ -70,10 +74,31 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def message_text(event):
-    answer = calculate(event.message.text).text
+    if (event.message.text=="/history"):
+        uid = str(event.source.user_id)
+        conn = psycopg2.connect(db_url, sslmode='require') 
+        cur = conn.cursor() 
+        cur.execute("select * from calc_history where uid = '%s';" % (uid))
+        results = cur.fetchall()
+        content =""
+        if (results>0):
+            for i in range (0,len(results)):
+                content += results[i][0] + results[i][1] + "\n"
+        else : 
+            content = "No calculation before"
+        conn.commit() 
+        conn.close()
+    else:
+        content = calculate(event.message.text).text
+        uid = str(event.source.user_id)
+        conn = psycopg2.connect(db_url, sslmode='require') 
+        cur = conn.cursor() 
+        cur.execute("insert into calc_history (uid,expression,result) values ('%s','%s','%s);" %(uid) %(event.message.text) %(content))
+        conn.commit() 
+        conn.close()
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=answer)
+        TextSendMessage(text=content)
     )
 
 
