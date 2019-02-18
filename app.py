@@ -73,7 +73,7 @@ def message_text(event,answer):
     answer = calculate(TextMessage)
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=answer.text)
+        TextSendMessage(text="answer.text)"
     )
 
 
