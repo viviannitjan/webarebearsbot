@@ -92,7 +92,7 @@ def message_text(event):
         uid = str(event.source.user_id)
         conn = psycopg2.connect(db_url, sslmode='require') 
         cur = conn.cursor() 
-        cur.execute("insert into calc_history (uid,expression,result) values ('%s','%s','%s);" %(uid,event.message.text,content))
+        cur.execute("insert into calc_history (uid,expression,result) values ('%s','%s','%s');" %(uid,event.message.text,content))
         conn.commit() 
         conn.close()
     line_bot_api.reply_message(
