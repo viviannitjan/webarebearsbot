@@ -70,10 +70,10 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def message_text(event):
-    # event.message.text = calculate(event.message.text).text
+    answer = calculate(event.message.text).text
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text="testest")
+        TextSendMessage(text=answer)
     )
 
 
